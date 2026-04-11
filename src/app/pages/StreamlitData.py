@@ -416,6 +416,7 @@ def BuildSankey(df, category, organization, year):
     dfExpensesPivot = dfExpensesPivot.rename(columns={'ExpenseMissione': 'ExpenseProjects', 'ExpenseStruttura': 'ExpenseStructure', 'ExpenseRaccolta Fondi': 'ExpenseFundings'})
     result          = result.merge(dfExpensesPivot, on=['Category', 'Organization', 'Year'], how='outer').fillna(0)
     result          = FilterDf(result, category=category, organization=organization, year=year, donorType=None)
+    result          = result[(result['Fundings'] != 0) & (result['Revenues'] != 0) & (result['ExpenseProjects'] != 0)]
     finalColumns    = ['Category', 'Organization', 'Year', 'Fundings', 'Revenues', 'ExpenseProjects', 'ExpenseStructure', 'ExpenseFundings']
     
     return result[finalColumns].reset_index(drop=True)
