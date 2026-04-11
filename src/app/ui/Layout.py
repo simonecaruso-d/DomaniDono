@@ -70,7 +70,7 @@ def RenderSidebar(sidebarIcons, footerIcons):
     for page in Configuration.Pages:
         activeClass = 'active' if page == currentPage else ''
         icon        = sidebarIcons.get(page, '')
-        queryParams = {'page': page}
+        queryParams = {'page': page, 'loaded': '1'}
         if currentVw: queryParams['vw'] = currentVw
         if currentVh: queryParams['vh'] = currentVh
         queryString = urlencode(queryParams)
@@ -92,11 +92,6 @@ def RenderSidebar(sidebarIcons, footerIcons):
 
 def FormatUpdateLabel():
     return 'Last update: 02 Apr 2026, 10:30 (UTC)'
-
-def RenderUpdateIndicator():
-    'Build the topbar live-update indicator HTML.'
-    updateLabel = FormatUpdateLabel()
-    return (f"""<div class="topbar-live"><span class="topbar-live-dot"></span><span>{updateLabel}</span></div>""")
 
 # Wrappers
 def RenderStyles(logo = LoadLogo(),
@@ -191,9 +186,6 @@ def RenderStyles(logo = LoadLogo(),
             body:has([data-testid="stSidebar"][aria-expanded="false"]) .custom-topbar {{padding-left: {topbarLeftCollapsedPx}px;}}
             .custom-topbar img {{position: relative; z-index: 1; margin-left: {ScalePx(8)}px; height: {topbarLogoHeightPx}px; width: auto; filter: drop-shadow(0 0 3px rgba(255,255,255,0.20));}}
             .custom-topbar .topbar-title {{position: relative; z-index: 1; margin-left: {ScalePx(4)}px; color: {Configuration.WhiteColor}; font-size: clamp(1.35rem, 1.15rem + 0.45vw, 1.7rem); font-weight: 700; letter-spacing: {letterSpacing2}; text-shadow: 0 0 6px rgba(255,255,255,0.16), 0 0 10px rgba(var(--dp-primary-rgb), 0.12); flex: 0 0 auto; white-space: nowrap;}}
-            .topbar-live {{margin-left: auto; display: flex; align-items: center; gap: {ScalePx(5)}px; color: {Configuration.WhiteColor}; font-size: {fontSizeBody}; font-weight: 500; letter-spacing: {letterSpacing1}; white-space: nowrap; pointer-events: none; flex: 0 0 auto;}}
-            .topbar-live-dot {{flex-shrink: 0; width: {ScalePx(5)}px; height: {ScalePx(5)}px; border-radius: 50%; background: #4ade80; animation: dp-live-pulse 2.4s ease-in-out infinite;}}
-
             [data-testid="stExpandSidebarButton"],
             [data-testid="stSidebarCollapseButton"] {{position: fixed !important; top: {ScalePx(5)}px !important; left: {ScalePx(12)}px !important; z-index: 2147483005 !important; visibility: visible !important; opacity: 1 !important; margin: 0 !important; transform: none !important;}}
             [data-testid="stExpandSidebarButton"],
@@ -282,7 +274,7 @@ def RenderStyles(logo = LoadLogo(),
                             clearInterval(poll);
                             init();}}}}, 100);}}}})();</script>""", unsafe_allow_html=True)
 
-    st.markdown(f"""<div class="custom-topbar"><img src="data:image/png;base64,{logo}" /><span class="topbar-title">Domani Dono</span>{RenderUpdateIndicator()}</div>""", unsafe_allow_html=True)
+    st.markdown(f"""<div class="custom-topbar"><img src="data:image/png;base64,{logo}" /><span class="topbar-title">Domani Dono</span></div>""", unsafe_allow_html=True)
 
 def RenderLayout():
     'Render styles and sidebar, then return the selected page key.'

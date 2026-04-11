@@ -62,26 +62,35 @@ def Main():
     HomeUI.SetupPage()
 
     st.markdown(Loader.HideRunningIndicatorCss(), unsafe_allow_html=True)
-    isFirstLoad = 'app_data' not in st.session_state
-    if isFirstLoad:
-        targetLoadSeconds = Loader.GetTargetLoadSeconds(10, 20)
-        loaderSlot        = Loader.RenderLoader(targetDurationSeconds=targetLoadSeconds)
-        loadStartTime     = time.perf_counter()
-        try:
-            result = DataLoader.BuildAllDfs()
-        except Exception as loadError:
+    hasLoadedFlag = str(st.query_params.get('loaded', '0')) == '1'
+    shouldLoadData = 'app_data' not in st.session_state
+
+    if shouldLoadData:
+        if not hasLoadedFlag:
+            targetLoadSeconds = Loader.GetTargetLoadSeconds(5, 10)
+            loaderSlot        = Loader.RenderLoader(targetDurationSeconds=targetLoadSeconds)
+            loadStartTime     = time.perf_counter()
+            try:
+                result = DataLoader.BuildAllDfs()
+            except Exception as loadError:
+                loaderSlot.empty()
+                st.error(f'Error in uploading data: {loadError}')
+                st.stop()
+            elapsedLoadSeconds = time.perf_counter() - loadStartTime
+            remainingSeconds   = targetLoadSeconds - elapsedLoadSeconds
+            if remainingSeconds > 0: time.sleep(remainingSeconds)
             loaderSlot.empty()
-            st.error(f'Error in uploading data: {loadError}')
-            st.stop()
-        elapsedLoadSeconds = time.perf_counter() - loadStartTime
-        remainingSeconds   = targetLoadSeconds - elapsedLoadSeconds
-        if remainingSeconds > 0: time.sleep(remainingSeconds)
-        loaderSlot.empty()
+        else:
+            try:
+                result = DataLoader.BuildAllDfs()
+            except Exception as loadError:
+                st.error(f'Error in uploading data: {loadError}')
+                st.stop()
+
         st.session_state['app_data'] = result
-        registry, metrics, geography = result
-    else:
-        registry, metrics, geography = st.session_state['app_data']
-        st.session_state['app_data'] = (registry, metrics, geography)
+
+    registry, metrics, geography = st.session_state['app_data']
+    st.session_state['app_data'] = (registry, metrics, geography)
         
 
     currentPage = HomeUI.RenderLayout()

@@ -97,12 +97,13 @@ def RenderDataSourceSection(logoPath=None):
 	st.markdown("<p class='object-subtitle-home-source'>Data sources.</p></div>", unsafe_allow_html=True)
 	st.markdown('<br>', unsafe_allow_html=True)
 	dataSourceText = Configuration.DataSourceText.strip().replace('\n', '<br>')
+	updateLabel    = UI.FormatUpdateLabel()
 	logoHtml       = f"<div class='home-data-source-logo'><img src='data:image/png;base64,{ReadImageAsBase64(logoPath)}' alt='OpenCooperazione'></div>"
 	dataSourceHtml = f"""
 		<div class='home-data-source'>
 			{logoHtml}
 			<p class='home-data-source-text'>Data from <strong>OpenCooperazione</strong></p>
-			<div class='home-data-source-note' style='color: {Configuration.Palette1B} !important;'>{dataSourceText}</div>
+			<div class='home-data-source-note' style='color: {Configuration.Palette1B} !important;'>{dataSourceText}<br><br><strong>{updateLabel}</strong></div>
 		</div>"""
 	st.markdown(f"<div class='home-content-card'><div class='home-how-inner'>{dataSourceHtml}</div></div>", unsafe_allow_html=True)
 
