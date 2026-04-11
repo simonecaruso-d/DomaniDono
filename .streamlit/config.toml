@@ -1,0 +1,8 @@
+[theme]
+base = "dark"
+
+[logger]
+level = "error"
+
+[runner]
+fastReruns = false

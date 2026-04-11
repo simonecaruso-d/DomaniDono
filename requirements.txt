@@ -1,0 +1,9 @@
+beautifulsoup4
+folium
+markdown
+openai
+pandas
+plotly
+python-dotenv
+requests
+streamlit
