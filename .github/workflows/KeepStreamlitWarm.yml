@@ -1,0 +1,67 @@
+name: Keep DomaniDono Warm
+
+on:
+  schedule:
+    - cron: "0 */4 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: keep-domanidono-warm
+  cancel-in-progress: false
+
+env:
+  APP_URL: https://domanidono.streamlit.app/
+  HOLD_SECONDS: "180"
+
+jobs:
+  warm-app:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Playwright Chromium
+        run: |
+          npm init -y
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+
+      - name: Warm Streamlit App
+        shell: bash
+        run: |
+          node <<'EOF'
+          const { chromium } = require('playwright');
+
+          const appUrl = process.env.APP_URL;
+          const holdSeconds = Number(process.env.HOLD_SECONDS || '180');
+
+          (async () => {
+            const browser = await chromium.launch({ headless: true });
+            const page = await browser.newPage();
+
+            page.setDefaultNavigationTimeout(180000);
+
+            console.log(`Opening app: ${appUrl}`);
+            await page.goto(appUrl, { waitUntil: 'domcontentloaded' });
+            await page.waitForSelector('body', { timeout: 180000 });
+
+            try {
+              await page.waitForLoadState('networkidle', { timeout: 30000 });
+            } catch {
+              console.log('Network did not become idle, continuing after initial page load.');
+            }
+
+            console.log(`App opened. Keeping browser session alive for ${holdSeconds} seconds...`);
+            await page.waitForTimeout(holdSeconds * 1000);
+
+            await browser.close();
+            console.log('Warm-up completed.');
+          })().catch((error) => {
+            console.error(error);
+            process.exit(1);
+          });
+          EOF
