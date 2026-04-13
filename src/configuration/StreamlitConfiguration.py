@@ -32,23 +32,27 @@ FooterIconPaths = {'Email': EmailIconPath, 'Copyright': CopyrightIconPath}
 
 # Loader
 LoadingMessages = [
-    'Stiamo preparando le cause e i progetti che possono diventare il tuo prossimo gesto concreto.',
-    'Ordiniamo i dati per aiutarti a donare con cuore, ma anche con massima chiarezza.',
-    'Tra poco potrai confrontare le organizzazioni e scegliere dove il tuo contributo puo contare di piu.',
-    'Quasi fatto: Domani Dono sta per accompagnarti verso una scelta informata e significativa.']
+    'You may say I\'m a dreamer, but I\'m not the only on. 🌍✨ \n Imagine - John Lennon',
+    'We are the ones who make a brighter day, so let\'s start giving! 🌟💖 \n We Are The World - Michael Jackson',
+    'And how many years can some people exist before they\'re allowed to be free? 🌈🕊️ \n Blowin in the Wind - Bob Dylan',
+    'Heal the world, make it a better place, for you and for me and the entire human race 🌎💚 \n Heal The World - Michael Jackson',
+    'Did you ever stop to notice this crying Earth, these weeping shores? 🌊😭 \n Earth Song - Michael Jackson',
+    'Won\'t you help to sing, another song of freedom? 🌟🎶 \n Redemption Song - Bob Marley',
+    'People help the people, and if you\'re homesick give me your hand and I\'ll hold it 🌍🤝 \n People Help The People - Birdy',
+    'If you wanna make the world a better place, take a look at yourself and then make a change 🌎 \n Man in the Mirror - Michael Jackson'
+]
 
 # Home
 HomeHowItWorksStoryParagraphs = [
-        '<br>Imagine opening a list of possibilities where every choice can become a concrete act of care. That is where Domani Dono starts: from the desire to transform <strong>generosity into measurable impact</strong>. 🫶🏻',
-        'Behind every organization there are stories of people, communities, and futures being rebuilt. Here, those stories are connected to data, context, and clear signals you can trust. 🔮',
-        'As you navigate the platform, you move naturally from emotion to awareness: discover who is acting, compare how they create impact, and understand where your contribution can truly make a difference. ',
+        '<br>Imagine opening a list of possibilities where every choice can become a concrete act of care. That is where Domani Dono stems from: the desire to transform your <strong>generosity into measurable impact</strong>. 🫶🏻',
+        'Behind every organization there is a story: people, communities, and futures being rebuilt. On our platform, every story is connected to real data you can trust: navigating through the pages you can discover the organizations, how they create impact and understand where your contribution can make a difference. 🎁',
         'Our promise is simple: help you donate with both heart and clarity, so each euro feels <strong>intentional, informed, and deeply meaningful</strong>. 💞<br>']
 HomeHowItWorksGuideTitle = 'Your journey in 4 steps'
 HomeHowItWorksGuideSteps = [
         '<strong>Start in Home:</strong> get oriented and discover the organizations in the ecosystem.',
         '<strong>Dive into Impacts:</strong> compare organizations through maps, trends, and get an AI-powered donation insights.',
         '<strong>Validate in Registry:</strong> review structured records and key information before deciding.',
-        '<strong>Make Your Impact:</strong> take action and contribute to the causes that matter most to you.']
+        '<strong>Make the difference:</strong> take action and contribute to the causes that matter most to you. <br>']
 HomeLogosExtensions    = ['.png', '.jpg', '.jpeg', '.webp']
 HomeLogosAutoplaySec   = 150
 HomeLogoGapPx          = 30

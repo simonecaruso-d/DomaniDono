@@ -67,7 +67,7 @@ def Main():
 
     if shouldLoadData:
         if not hasLoadedFlag:
-            targetLoadSeconds = Loader.GetTargetLoadSeconds(5, 10)
+            targetLoadSeconds = Loader.GetTargetLoadSeconds(7, 15)
             loaderSlot        = Loader.RenderLoader(targetDurationSeconds=targetLoadSeconds)
             loadStartTime     = time.perf_counter()
             try:

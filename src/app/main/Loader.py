@@ -1,5 +1,6 @@
 # Environment Setting
 import base64
+import html
 import random
 import streamlit as st
 
@@ -18,6 +19,14 @@ def ScalePx(value, minimum=1):
 def GetTargetLoadSeconds(minSeconds=10, maxSeconds=20):
     'Return a random target loading duration in seconds for the first app load.'
     return random.randint(minSeconds, maxSeconds)
+
+def FormatLoaderMessage(message):
+    'Format the lyric in italic and keep title/author on a separate line.'
+    lyric, separator, credit = message.partition('\n')
+    lyricHtml = f"<span class='loader-message-lyric'>{html.escape(lyric.strip())}</span>"
+    if not separator: return f"<div class='loader-message-content'>{lyricHtml}</div>"
+    creditHtml = f"<span class='loader-message-credit'>{html.escape(credit.strip())}</span>"
+    return f"<div class='loader-message-content'>{lyricHtml}{creditHtml}</div>"
 
 # CSS
 def HideRunningIndicatorCss():
@@ -62,8 +71,11 @@ def HideRunningIndicatorCss():
         .loader-message {{
             font-size: {fontSizeMessage} !important; font-weight: {Configuration.FontWeight4} !important; line-height: {Configuration.LineHeight4} !important;
             font-family: {Configuration.FontFamily} !important; color: {Configuration.WhiteColor} !important; text-align: center; max-width: {loaderMessageMaxWidth}px; width: 100%;
-            display: flex; align-items: center; justify-content: center;
+              display: flex; align-items: center; justify-content: center; white-space: pre-line;
             animation: fadeInUp 1s ease-out; padding: {spacing2Px}; background: rgba(255,255,255,0.12); backdrop-filter: blur(16px); border-radius: {Configuration.RadiusInput}px; border: 1px solid rgba(255,255,255,0.24);}}
+                .loader-message-content {{ display: flex; flex-direction: column; align-items: center; justify-content: center; gap: {spacing2Px}; width: 100%; }}
+        .loader-message-lyric {{ font-style: italic; }}
+        .loader-message-credit {{ font-style: normal; opacity: 0.92; }}
         @keyframes fadeInUp {{ from {{ opacity: 0; transform: translateY(24px); }} to {{ opacity: 1; transform: translateY(0); }} }}
         .loader-bar-track {{width: {loaderBarWidth}px; height: {loaderBarHeight}px; background: rgba(255,255,255,0.24); border-radius: {Configuration.RadiusInput}px; overflow: hidden; margin-top: {spacing3Px}; box-shadow: inset 0 2px 8px rgba(0,0,0,0.1); position: relative;}}
         .loader-bar-fill {{position: absolute; top: 0; left: -35%; width: 35%; height: 100%; border-radius: {Configuration.RadiusInput}px; background: linear-gradient(90deg, {Configuration.Palette2D} 0%, {Configuration.Palette2F} 50%, {Configuration.Palette1F} 100%); box-shadow: 0 0 24px rgba(255,255,255,0.45); animation: loaderSweep 1.6s ease-in-out infinite;}}
@@ -76,7 +88,7 @@ def LoaderRotationCss(totalDuration, visibleUntil, fadeUntil):
     'Return CSS to rotate loader messages without rerunning Streamlit.'
     return f"""<style>
         .loader-message-rotating {{position: relative; display: grid; width: 100%; min-height: {ScalePx(120)}px; overflow: hidden; animation: none; place-items: center;}}
-        .loader-message-item {{grid-area: 1 / 1; width: 100%; opacity: 0; text-align: center; display: flex; align-items: center; justify-content: center; animation: loaderMessageRotate {totalDuration}s infinite;}}
+        .loader-message-item {{grid-area: 1 / 1; width: 100%; opacity: 0; text-align: center; display: flex; align-items: center; justify-content: center; white-space: pre-line; animation: loaderMessageRotate {totalDuration}s infinite;}}
         @keyframes loaderMessageRotate {{
             0%, {visibleUntil}% {{ opacity: 1; transform: translateY(0); }}
             {fadeUntil}%, 100% {{ opacity: 0; transform: translateY(10px); }}}}
@@ -121,10 +133,10 @@ def RenderLoader(message = None, targetDurationSeconds = 15):
     countdownItems = ''.join(
         f"<div class='loader-countdown-item' style='animation-delay: {round(index * countdownStep, 3)}s;'>{(countdownDuration - index) // 60:02d}:{(countdownDuration - index) % 60:02d}</div>"
         for index in range(countdownDuration)) + f"<div class='loader-countdown-item loader-countdown-item-last' style='animation-delay: {round(float(targetDurationSeconds), 3)}s;'>00:00</div>"
-    if messageCount == 1: messageHtml = f"<div class='loader-message'>{messages[0]}</div>"
+    if messageCount == 1: messageHtml = f"<div class='loader-message'>{FormatLoaderMessage(messages[0])}</div>"
     else:
         st.markdown(LoaderRotationCss(totalDuration, visibleUntil, fadeUntil), unsafe_allow_html=True)
-        messageItems = ''.join(f"<div class='loader-message-item' style='animation-delay: -{round(index * messageDuration, 3)}s;'>{currentMessage}</div>" for index, currentMessage in enumerate(messages))
+        messageItems = ''.join(f"<div class='loader-message-item' style='animation-delay: -{round(index * messageDuration, 3)}s;'>{FormatLoaderMessage(currentMessage)}</div>" for index, currentMessage in enumerate(messages))
         messageHtml = f"<div class='loader-message loader-message-rotating'>{messageItems}</div>"
 
     slot.markdown(f"""

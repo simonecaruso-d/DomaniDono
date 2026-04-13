@@ -25,6 +25,7 @@ def HomePageCss(radiusCard=Configuration.RadiusCard + 15):
 		.home-how-story strong {{color: {Configuration.Palette1A}; font-weight: {Configuration.FontWeight6};}}
 		.home-how-inner {{max-width: 92%; margin: 0 auto; padding-top: {Configuration.Spacing2}px; padding-right: {Configuration.Spacing2}px; padding-bottom: {Configuration.Spacing3}px; padding-left: {Configuration.Spacing2}px; border-radius: {Configuration.Border3}px; background: {Configuration.WhiteColor}; border: none;}}
 		.home-how-guide-title {{display: none;}}
+		.home-bottom-spacer {{display: block; width: 100%; height: 1.25em;}}
 	
 		.home-data-source {{display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; text-align: center;}}
 		.home-data-source-logo {{width: 120px; height: 80px; display: flex; align-items: center; justify-content: center; background: {Configuration.WhiteColor}; border-radius: {Configuration.Border3}px;}}
@@ -86,7 +87,8 @@ def RenderHowItWorksSection():
 	guideHtml = ''.join(f'<li>{step}</li>' for step in Configuration.HomeHowItWorksGuideSteps)
 	st.markdown("<div class='home-content-card'>" + "<div class='home-how-inner'>" + storyHtml
 			+ f"<p style='margin: 12px 0; font-style: italic; text-decoration: underline; color: {Configuration.Palette1A};'>{Configuration.HomeHowItWorksGuideTitle}</p>"
-			+ f"<ul class='home-how-list'>{guideHtml}</ul>" + "</div>" + "</div>", unsafe_allow_html=True)
+			+ f"<ul class='home-how-list'>{guideHtml}</ul>"
+			+ "<div class='home-bottom-spacer' aria-hidden='true'></div>" + "</div>" + "</div>", unsafe_allow_html=True)
 
 # Data Source
 def RenderDataSourceSection(logoPath=None):
@@ -104,6 +106,7 @@ def RenderDataSourceSection(logoPath=None):
 			{logoHtml}
 			<p class='home-data-source-text'>Data from <strong>OpenCooperazione</strong></p>
 			<div class='home-data-source-note' style='color: {Configuration.Palette1B} !important;'>{dataSourceText}<br><br><strong>{updateLabel}</strong></div>
+			<div class='home-bottom-spacer' aria-hidden='true'></div>
 		</div>"""
 	st.markdown(f"<div class='home-content-card'><div class='home-how-inner'>{dataSourceHtml}</div></div>", unsafe_allow_html=True)
 
