@@ -32,14 +32,14 @@ FooterIconPaths = {'Email': EmailIconPath, 'Copyright': CopyrightIconPath}
 
 # Loader
 LoadingMessages = [
-    'You may say I\'m a dreamer, but I\'m not the only on. 🌍✨ \n Imagine - John Lennon',
-    'We are the ones who make a brighter day, so let\'s start giving! 🌟💖 \n We Are The World - Michael Jackson',
-    'And how many years can some people exist before they\'re allowed to be free? 🌈🕊️ \n Blowin in the Wind - Bob Dylan',
-    'Heal the world, make it a better place, for you and for me and the entire human race 🌎💚 \n Heal The World - Michael Jackson',
-    'Did you ever stop to notice this crying Earth, these weeping shores? 🌊😭 \n Earth Song - Michael Jackson',
-    'Won\'t you help to sing, another song of freedom? 🌟🎶 \n Redemption Song - Bob Marley',
-    'People help the people, and if you\'re homesick give me your hand and I\'ll hold it 🌍🤝 \n People Help The People - Birdy',
-    'If you wanna make the world a better place, take a look at yourself and then make a change 🌎 \n Man in the Mirror - Michael Jackson'
+    'You may say I\'m a dreamer, but I\'m not the only one \n Imagine - John Lennon',
+    'We are the ones who make a brighter day, so let\'s start giving! \n We Are The World - Michael Jackson',
+    'And how many years can some people exist before they\'re allowed to be free? \n Blowin in the Wind - Bob Dylan',
+    'Heal the world, make it a better place, for you and for me and the entire human race \n Heal The World - Michael Jackson',
+    'Did you ever stop to notice this crying Earth, these weeping shores? \n Earth Song - Michael Jackson',
+    'Won\'t you help to sing, another song of freedom? \n Redemption Song - Bob Marley',
+    'People help the people, and if you\'re homesick give me your hand and I\'ll hold it \n People Help The People - Birdy',
+    'If you wanna make the world a better place, take a look at yourself and then make a change \n Man in the Mirror - Michael Jackson'
 ]
 
 # Home
